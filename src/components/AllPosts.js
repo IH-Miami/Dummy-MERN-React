@@ -5,15 +5,18 @@ import { useParams, Link } from "react-router-dom";
 const AllPosts = () => {
   const [posts, setPosts] = React.useState([]);
   const [status, setStatus] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
+    setLoading(true);
     getAllPosts();
-  });
+  }, []);
 
   const getAllPosts = async () => {
     try {
       let response = await get("/posts/all");
       setPosts(response.data);
+      setLoading(false);
     } catch (err) {
       setStatus(err.message);
     }
